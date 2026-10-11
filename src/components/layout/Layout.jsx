@@ -5,7 +5,7 @@ function Layout({ children }) {
     <>
       <header className={styles.header}>
         <div className={styles.left}>
-          <Link href="/">FoodLilo</Link>
+          <Link href="/">Foodly</Link>
         </div>
         <div className={styles.right}>
           <Link href="/menu">Menu</Link>
