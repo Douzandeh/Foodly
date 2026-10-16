@@ -1,6 +1,8 @@
+"use client";
+
 import { useState } from "react";
 import styles from "./CategoriesPage.module.css";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 function CategoriesPage() {
   const router = useRouter();
