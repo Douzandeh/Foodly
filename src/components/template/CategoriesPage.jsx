@@ -1,44 +1,88 @@
+
 "use client";
 
-import { useState } from "react";
 import styles from "./CategoriesPage.module.css";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import Card from "../modules/Card";
+import Image from "next/image";
 
-function CategoriesPage() {
+function CategoriesPage({ data }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const [query, setQuery] = useState({ difficulty: "", time: "" });
+  // Read filters from the URL
+  const difficulty = searchParams.get("difficulty") || "";
+  const time = searchParams.get("time") || "";
 
-  const changeHandler = (e) => {
-    setQuery({ ...query, [e.target.name]: e.target.value });
-  };
+  // Determine whether the user has applied a filter
+  const isSearched = Boolean(difficulty || time);
 
-  const searchHandler = () => {
-    router.push({ pathname: "/categories", query });
+  const searchHandler = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const selectedDifficulty = formData.get("difficulty");
+    const selectedTime = formData.get("time");
+
+    const params = new URLSearchParams();
+
+    if (selectedDifficulty) {
+      params.set("difficulty", selectedDifficulty);
+    }
+
+    if (selectedTime) {
+      params.set("time", selectedTime);
+    }
+
+    const search = params.toString();
+
+    router.push(search ? `/categories?${search}` : "/categories");
   };
 
   return (
     <div className={styles.container}>
       <h2>Categories</h2>
+
       <div className={styles.subContainer}>
-        <div className={styles.select}>
+        <form className={styles.select} onSubmit={searchHandler}>
           <select
-            value={query.difficulty}
             name="difficulty"
-            onChange={changeHandler}
+            defaultValue={difficulty}
           >
             <option value="">Difficulty</option>
             <option value="Easy">Easy</option>
             <option value="Medium">Medium</option>
             <option value="Hard">Hard</option>
           </select>
-          <select value={query.time} name="time" onChange={changeHandler}>
+
+          <select
+            name="time"
+            defaultValue={time}
+          >
             <option value="">Cooking time</option>
             <option value="more">More than 30 min</option>
-            <option value="less">Les than 30 min</option>
+            <option value="less">Less than 30 min</option>
           </select>
-          <button onClick={searchHandler}>Search</button>
-        </div>
+
+          <button type="submit">Search</button>
+        </form>
+      </div>
+
+      <div className={styles.cards}>
+        {!isSearched ? (
+          <Image
+            src="/images/search.png"
+            alt="Search categories"
+            width={300}
+            height={300}
+          />
+        ) : data.length > 0 ? (
+          data.map((food) => (
+            <Card key={food.id} {...food} />
+          ))
+        ) : (
+          <p>No foods found.</p>
+        )}
       </div>
     </div>
   );
