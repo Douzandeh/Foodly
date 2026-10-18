@@ -2,7 +2,7 @@ import DetailsPage from "@/components/template/DetailsPage";
 import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
-  const res = await fetch("http://localhost:4000/data");
+  const res = await fetch(`${process.env.BASE_URL}/data`);
   const data = await res.json();
 
   return data.slice(0, 10).map((food) => ({
@@ -11,10 +11,10 @@ export async function generateStaticParams() {
 }
 
 async function Details({ params }) {
-  const { id } = await params; 
+  const { id } = await params;
 
-  const res = await fetch(`http://localhost:4000/data/${id}`, {
-    next: { revalidate: 10 }, 
+  const res = await fetch(`${process.env.BASE_URL}data/${id}`, {
+    next: { revalidate: +process.env.REVALIDATE },
   });
 
   if (!res.ok) {

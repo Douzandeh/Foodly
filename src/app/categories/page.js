@@ -3,7 +3,7 @@ import CategoriesPage from "../../components/template/CategoriesPage";
 async function Categories({ searchParams }) {
   const { difficulty, time } = await searchParams;
 
-  const res = await fetch(`http://localhost:4000/data`, {
+  const res = await fetch(`${process.env.BASE_URL}/data`, {
     cache: "no-store",
   });
 
