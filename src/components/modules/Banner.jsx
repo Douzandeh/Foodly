@@ -9,7 +9,7 @@ function Banner() {
         <h2>Foodly</h2>
         <p>Food Delivery and Takeout!</p>
         <span>
-          FoodLilo is an online food ordering and delivery platform launched by
+          Foodly is an online food ordering and delivery platform launched by
           Uber in 2026. Meals are delivered by couriers using cars, scooters,
           bikes, or on foot.
         </span>
