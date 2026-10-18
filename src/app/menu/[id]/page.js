@@ -13,8 +13,8 @@ export async function generateStaticParams() {
 async function Details({ params }) {
   const { id } = await params;
 
-  const res = await fetch(`${process.env.BASE_URL}data/${id}`, {
-    next: { revalidate: +process.env.REVALIDATE },
+  const res = await fetch(`${process.env.BASE_URL}/data/${id}`, {
+    next: { revalidate: Number(process.env.REVALIDATE) },
   });
 
   if (!res.ok) {
